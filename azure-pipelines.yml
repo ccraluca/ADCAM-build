@@ -26,7 +26,6 @@ jobs:
   timeoutInMinutes: 200
   strategy:
     matrix:
-      
       # ARM / Jetson builds
       ubuntu_22_04_imx:
         imageName: 'ubuntu-22.04'
@@ -51,9 +50,12 @@ jobs:
   steps:
   - checkout: self
     fetchDepth: 1
-    submodules: true
     clean: true
     persistCredentials: true
+
+  - script: |
+      git submodule update --init --recursive
+    displayName: "Submodules check out"
 
   - task: Cache@2
     condition: and(
@@ -76,16 +78,7 @@ jobs:
       eq(variables['BUILD_TYPE'], 'cppcheck'),
       eq(variables['BUILD_TYPE'], 'deploy_doxygen')
       )
-      
     displayName: "Install Dependencies"
-
-  - script: |
-      echo "Installing ZeroMQ and cppzmq..."
-      sudo apt-get update
-      sudo apt-get install -y libzmq3-dev
-      git clone --depth 1 https://github.com/zeromq/cppzmq.git
-      sudo cp cppzmq/zmq.hpp /usr/include/
-    displayName: 'Install ZeroMQ dependencies'
 
   - script: |
       if [[ "${DOCKER}" != "" ]]; then sudo sysctl kernel.randomize_va_space=0; fi

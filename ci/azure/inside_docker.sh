@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git submodule update --init --recursive
+
 git config --global --add safe.directory /ToF/libaditof
 git config --global --add safe.directory /ToF/libaditof/glog
 git config --global --add safe.directory /ToF/libaditof/protobuf
