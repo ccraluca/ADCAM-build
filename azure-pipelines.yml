@@ -27,34 +27,18 @@ jobs:
   strategy:
     matrix:
       
-      #PC
-      ubuntu_22_04_x86_64:
-        imageName: 'ubuntu-22.04'
-
-      ubuntu_24_04_x86_64:
-        imageName: 'ubuntu-24.04'
-
-      ubuntu_22_04_x86_64_offline:
-        imageName: 'ubuntu-22.04'
-        EXTRA_CMAKE_FLAGS: "-DWITH_OFFLINE=on"
-
-      #IMX
+      # ARM / Jetson builds
       ubuntu_22_04_imx:
         imageName: 'ubuntu-22.04'
         DOCKER: "septimiuvana/arm64-ubuntu"
         EXTRA_CMAKE_FLAGS: "-DNXP=1"
 
-      #NVIDIA
       ubuntu_22_04_nvidia:
         imageName: 'ubuntu-22.04'
         DOCKER: "septimiuvana/arm64-ubuntu"
         EXTRA_CMAKE_FLAGS: "-DNVIDIA=1"
-      
-      #code quality, TO DO: once entire code is formatted enable clang-format
-      clang_format:
-        imageName: 'ubuntu-22.04'
-        BUILD_TYPE: "clang_format"
 
+      # Optional code-quality
       cppcheck:
         imageName: 'ubuntu-22.04'
         BUILD_TYPE: "cppcheck"
